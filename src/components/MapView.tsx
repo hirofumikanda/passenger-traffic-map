@@ -1,7 +1,7 @@
 import useMapInit from "../hooks/useMapInit";
 
 const MapView = () => {
-  const { mapContainerRef, mapRef } = useMapInit();
+  const { mapContainerRef } = useMapInit();
 
   return (
     <>
