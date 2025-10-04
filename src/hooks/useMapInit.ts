@@ -4,9 +4,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
 import { setupPopupHandler } from "../utils/popup";
 import { setupPointerHandler } from "../utils/pointer";
-import { onMapLoad as onMapLoadUtil } from "../utils/onMapLoad";
 
-const useMapInit = (onMapLoad?: (map: maplibregl.Map) => void) => {
+const useMapInit = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
@@ -28,8 +27,7 @@ const useMapInit = (onMapLoad?: (map: maplibregl.Map) => void) => {
     map.addControl(new maplibregl.NavigationControl(), "top-right");
 
     map.on("load", () => {
-      onMapLoadUtil(map);
-      onMapLoad?.(map);
+      // Map loaded
     });
 
     setupPopupHandler(map);
@@ -38,7 +36,7 @@ const useMapInit = (onMapLoad?: (map: maplibregl.Map) => void) => {
     return () => {
       map.remove();
     };
-  }, [onMapLoad]);
+  }, []);
 
   return { mapContainerRef, mapRef };
 };
