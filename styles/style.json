@@ -1,0 +1,231 @@
+{
+  "version": 8,
+  "sources": {
+    "prefectures": {
+      "type": "vector",
+      "url": "pmtiles:///passenger-traffic-map/data/prefectures.pmtiles",
+      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html\" target=\"_blank\">国土数値情報（行政区域データ）</a>を加工して作成",
+      "minzoom": 4,
+      "maxzoom": 10
+    },
+    "prefectures_label": {
+      "type": "vector",
+      "url": "pmtiles:///passenger-traffic-map/data/prefectures_label.pmtiles",
+      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html\" target=\"_blank\">国土数値情報（行政区域データ）</a>を加工して作成",
+      "minzoom": 4,
+      "maxzoom": 10
+    },
+    "rail_road": {
+      "type": "vector",
+      "url": "pmtiles:///passenger-traffic-map/data/rail_road.pmtiles",
+      "minzoom": 8,
+      "maxzoom": 14,
+      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N02-2024.html\" target=\"_blank\">国土数値情報（鉄道データ）</a>"
+    },
+    "station_passengers_2023": {
+      "type": "vector",
+      "url": "pmtiles:///passenger-traffic-map/data/station_passengers_2023.pmtiles",
+      "minzoom": 8,
+      "maxzoom": 14,
+      "attribution": "<a href=\"https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-S12-2023.html\" target=\"_blank\">国土数値情報（駅乗降客数データ）</a>"
+    }
+  },
+  "glyphs": "font/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgb(138, 216, 236)"
+      }
+    },
+    {
+      "id": "prefectures",
+      "type": "fill",
+      "source": "prefectures",
+      "source-layer": "prefectures",
+      "paint": {
+        "fill-color": "rgb(255, 255, 255)",
+        "fill-opacity": 1
+      },
+      "minzoom": 4
+    },
+    {
+      "id": "prefectures_border",
+      "type": "line",
+      "source": "prefectures",
+      "source-layer": "prefectures",
+      "paint": {
+        "line-color": "rgba(100, 100, 100, 0.2)",
+        "line-width": 1,
+        "line-dasharray": [4, 2]
+      },
+      "minzoom": 4
+    },
+    {
+      "id": "prefectures_label",
+      "type": "symbol",
+      "source": "prefectures_label",
+      "source-layer": "prefectures_label",
+      "layout": {
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 10,
+        "text-anchor": "center"
+      },
+      "paint": {
+        "text-color": "#888",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1
+      },
+      "minzoom": 5
+    },
+    {
+      "id": "rail_road_other",
+      "type": "line",
+      "source": "rail_road",
+      "source-layer": "rail_road",
+      "minzoom": 8,
+      "filter": ["all", ["!=", ["get", "institution_type_cd"], "2"], ["!=", ["get", "institution_type_cd"], "1"]],
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "line-color": "rgba(136,136,136,1)",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "rail_road_jr_base",
+      "type": "line",
+      "source": "rail_road",
+      "source-layer": "rail_road",
+      "minzoom": 8,
+      "filter": ["==", ["get", "institution_type_cd"], "2"],
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "line-color": "rgba(0, 0, 0, 1)",
+        "line-width": 4
+      }
+    },
+    {
+      "id": "rail_road_jr_dash",
+      "type": "line",
+      "source": "rail_road",
+      "source-layer": "rail_road",
+      "minzoom": 8,
+      "filter": ["==", ["get", "institution_type_cd"], "2"],
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": 2,
+        "line-dasharray": [4, 4]
+      }
+    },
+    {
+      "id": "rail_road_shinkansen_base",
+      "type": "line",
+      "source": "rail_road",
+      "source-layer": "rail_road",
+      "minzoom": 8,
+      "filter": ["==", ["get", "institution_type_cd"], "1"],
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "line-color": "rgba(0, 50, 150, 1)",
+        "line-width": 4
+      }
+    },
+    {
+      "id": "rail_road_shinkansen_dash",
+      "type": "line",
+      "source": "rail_road",
+      "source-layer": "rail_road",
+      "minzoom": 8,
+      "filter": ["==", ["get", "institution_type_cd"], "1"],
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": 2,
+        "line-dasharray": [4, 4]
+      }
+    },
+    {
+      "id": "rail_road_labels",
+      "type": "symbol",
+      "source": "rail_road",
+      "source-layer": "rail_road",
+      "minzoom": 10,
+      "layout": {
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 10,
+        "symbol-placement": "line",
+        "text-rotation-alignment": "map",
+        "text-pitch-alignment": "viewport",
+        "text-max-angle": 45,
+        "symbol-spacing": 300,
+        "text-optional": true,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": [
+          "case",
+          ["==", ["get", "institution_type_cd"], "1"], "#003296",
+          ["==", ["get", "institution_type_cd"], "2"], "#000000",
+          "#555555"
+        ],
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "station_passengers_circles",
+      "type": "circle",
+      "source": "station_passengers_2023",
+      "source-layer": "station_passengers_2023",
+      "minzoom": 12,
+      "paint": {
+        "circle-color": "rgba(120, 120, 120, 0.9)",
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["get", "passengers"],
+          0,
+          2,
+          10000,
+          5,
+          50000,
+          10,
+          100000,
+          15,
+          500000,
+          25,
+          1000000,
+          35
+        ],
+        "circle-stroke-color": "rgba(80, 80, 80, 0.8)",
+        "circle-stroke-width": 1
+      }
+    },
+    {
+      "id": "station_passengers_labels",
+      "type": "symbol",
+      "source": "station_passengers_2023",
+      "source-layer": "station_passengers_2023",
+      "minzoom": 12,
+      "layout": {
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12,
+        "text-variable-anchor": ["top", "right", "bottom", "left"],
+        "text-justify": "auto",
+        "text-radial-offset": 1,
+        "text-optional": true
+      },
+      "paint": {
+        "text-color": "#333",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 2
+      }
+    }
+  ]
+}
